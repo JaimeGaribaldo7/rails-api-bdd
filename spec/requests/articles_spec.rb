@@ -65,12 +65,22 @@ RSpec.describe 'Articles API' do
       { title: 'Two Stupid Tricks' }
     end
 
-    skip 'updates an article' do
+    it 'updates an article' do
+      patch "/articles/#{article.id}", article: article_diff, format: :json
+
+      expect(response).to be_success
+
+      article_response = JSON.parse(response.body)
+      expect(article_response['id']).not_to be_nil
+      expect(article_response['title']).to eq(article_diff[:title])
     end
   end
 
   describe 'DELETE /articles/:id' do
-    skip 'deletes an article' do
+    it 'deletes an article' do
+      delete "/articles/#{article.id}"
+      expect(response).to be_success
+      expect(response.body).to be_empty
     end
   end
 end

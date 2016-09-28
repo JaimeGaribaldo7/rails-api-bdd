@@ -74,15 +74,22 @@ RSpec.describe ArticlesController do
       patch :update, id: article.id, article: article_diff, format: :json
     end
 
-    skip 'is successful' do
+    it 'is successful' do
+      expect(response.status).to eq(200)
     end
 
-    skip 'renders a JSON response' do
+    it 'renders a JSON response' do
+      article_response = JSON.parse(response.body)
+      expect(article_response).not_to be_nil
     end
   end
 
   describe 'DELETE destroy' do
-    skip 'is successful and returns an empty response' do
+    it 'is successful and returns an empty response' do
+      delete :destroy, id: article.id
+
+      expect(response.status).to eq(204)
+      expect(response.body).to be_empty
     end
   end
 end
